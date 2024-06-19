@@ -8,9 +8,83 @@
 
 body {
     background-color: #f8f9fc;
+    padding: 20px;
+    box-sizing: border-box;
 }
 #summarySection{
     display: grid;
     column-gap: 16px;
-    
+    grid-template-columns: repeat(9,1fr);
+    margin-top: 20px;
+}
+#monthlyTransaction{
+    grid-column: span 6;
+    padding: 24px;
+    background-color: #FFFFFF;
+    border-radius: 10px;
+}
+#totalSection{
+    grid-column: span 3;
+    background: #FFFFFF;
+    border-radius: 10px;
+    padding: 24px;
+    display: grid;
+    grid-template-columns: auto auto;
+}
+#totalValue{
+    font-size: 20px;
+}
+
+#totalOne{
+    border-bottom: 2px solid #f8f9fc;
+    border-right: 2px solid #f8f9fc;
+    padding: 12px 24px;
+    box-sizing: border-box;
+}
+#totalTwo{
+    border-bottom: 2px solid #f8f9fc;
+    border-left: 2px solid #f8f9fc;
+    padding: 12px 24px;
+    box-sizing: border-box;
+}
+#totalThree{
+    border-top: 2px solid #f8f9fc;
+    border-right: 2px solid #f8f9fc;
+    padding: 12px 24px;
+    box-sizing: border-box;
+}
+#totalFour{
+    border-top: 2px solid #f8f9fc;
+    border-left: 2px solid #f8f9fc;
+    padding: 12px 24px;
+    box-sizing: border-box;
+}
+#icons{
+    font-size: 14px;
+    width: 28px;
+    height: 28px;
+    border-radius: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 14px;
+    color: #FFFFFF;
+}
+.fa-user{
+    background-color: #A338DD;
+}
+.fa-dollar{
+    background-color: #00A4F0;
+}
+.fa-calculator{
+    background-color: #F51D4A;
+}
+.fa-calendar{
+    background-color: #FF8F00;
+}
+#totalLabel{
+    margin-bottom: 24px;
+}
+#totalValue{
+    font-size: 28px;
 }
