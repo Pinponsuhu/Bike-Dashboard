@@ -23,6 +23,10 @@ body {
     grid-template-columns: repeat(9,1fr);
     margin-top: 20px;
 }
+#countryDropdown,#year-slider{
+    grid-column: span 1;
+    display: block;
+}
 #control{
     display: grid;
     grid-template-columns: repeat(3 1fr);
@@ -54,8 +58,8 @@ body {
     display: grid;
     grid-template-columns: auto auto;
 }
-#totalValue{
-    font-size: 20px;
+.totalValue,#totalCustomer{
+    font-size: 28px;
 }
 
 #totalOne{

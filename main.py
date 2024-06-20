@@ -5,6 +5,7 @@ import locale
 import plotly.express as px
 import plotly.graph_objects as go
 import constants
+import figures
 
 
 locale.setlocale(locale.LC_ALL,'')
@@ -66,37 +67,31 @@ year_chart = px.pie(sales_per_year,values='Revenue',names='Year',hole=0.48)
 
 country_list = bike_df['Country'].unique()
 
-# @callback(
-#     Output(component_id='country-val', component_property='children'),
-#     Input(component_id='country-dropdown', component_property='value')
-# )
-# def update_output_div(input_value):
-#     print(input_value)
-#     return f'Output: {input_value}'
-
-# @callback(
-#     Output(component_id='country-val', component_property='children'),
-#     Input(component_id='year-slider',component_property='children')
-# )
-# def update_year(input_value):
-#     return input_value
-
 app.layout = html.Main(
     children=[
         html.Section(
             id='control',
             children=[
-                dcc.Dropdown(
-                    options=[{'label': country, 'value': country} for country in country_list], value=None,
-                    id='country-dropdown'
+                html.Div(
+                    children=[
+                        dcc.Dropdown(
+                        placeholder ='Select Country',
+                        options=bike_df['Country'].unique(), value=None,
+                        id='countryDropdown', 
                     ), 
-                dcc.RangeSlider(
-                    min=bike_df['Year'].min(), 
-                    max=bike_df['Year'].max(),
-                    id='year-slider' ,
-                    step=None,
-                    marks={str(year): str(year) for year in bike_df['Year'].unique()},
+                    ]
+                ),
+                html.Div(
+                    children=[
+                        dcc.RangeSlider(
+                        min=bike_df['Year'].min(), 
+                        max=bike_df['Year'].max(),
+                        id='year-slider' ,
+                        step=None,
+                        marks={str(year): str(year) for year in bike_df['Year'].unique()},
                     
+                )
+                    ]
                 )
             ]
             ),
@@ -105,7 +100,11 @@ app.layout = html.Main(
             children=[
                 html.Div(
                     id='monthlyTransaction',
-                    children=[dcc.Graph(figure=transaction_month)]
+                    children=[
+                        dcc.Graph(
+                            id='monthlyTransaction',
+                            )
+                        ]
                 ), 
                 html.Div(
                     id='totalSection',
@@ -122,8 +121,8 @@ app.layout = html.Main(
                                     children=['Total Customer']
                                 ),
                                 html.H1(
-                                    id='totalValue',
-                                    children=[f'${locale.format_string('%d',customer_count,grouping=True)}']
+                                    id='totalCustomer',
+                                    className='totalValue'
                                 ),
                             ]
                         ),
@@ -140,6 +139,7 @@ app.layout = html.Main(
                                 ),
                                 html.H1(
                                     id='totalValue',
+                                    className='totalValue',
                                     children=[f'${locale.format_string('%d',total_profit,grouping=True)}']
                                 ),
                             ]
@@ -157,6 +157,7 @@ app.layout = html.Main(
                                 ),
                                 html.H1(
                                     id='totalValue',
+                                    className='totalValue',
                                     children=[f'${locale.format_string('%d',total_quantity,grouping=True)}']
                                 ),
                             ]
@@ -174,6 +175,7 @@ app.layout = html.Main(
                                 ),
                                 html.H1(
                                     id='totalValue',
+                                    className='totalValue',
                                     children=[f'{highest_month['Month'].values[0]}']
                                 ),
                             ]
@@ -210,21 +212,21 @@ app.layout = html.Main(
         
     ]
 )
+fig_gen = figures.DashFigures(bike_df)
 
-@callback(
-    Output(component_id='country-val', component_property='children'),
-    Input(component_id='country-dropdown', component_property='value')
-)
-def update_output_div(input_value):
-    print(input_value)
-    return f'Output: {input_value}'
+@app.callback(
+    Output(component_id='totalCustomer', component_property='children'),
+    Output(component_id='monthlyTransaction', component_property='figure'),
+    Input(component_id='countryDropdown', component_property='value'),
+    allow_duplicate=True
+    )
 
-# @callback(
-#     Output(component_id='country-val', component_property='children'),
-#     Input(component_id='year-slider',component_property='value')
-# )
-# def update_year(input_value):
-#     return input_value
+def update_hist(input_value):
+    total= fig_gen.total_customer(input_value)
+    trans= fig_gen.trans_month(input_value)
+    return  total,trans
+
+
 
 if __name__ == '__main__':
     app.run(debug=True)
