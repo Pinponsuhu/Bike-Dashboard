@@ -51,33 +51,40 @@ transaction_month.update_layout(
 )
 
 
-sub_cat = bike_df.groupby(by='Sub_Category')['Revenue'].sum().reset_index()
-print(sub_cat)
+sub_cat = bike_df.groupby(by='Country')['Revenue'].sum().reset_index()
+
+
+sub_cat_pie = go.Figure(go.Bar(x=sub_cat['Country'],y=sub_cat['Revenue'], marker_color='#442BC7'))
 
 country = px.line(bike_df, x='Year',y='Revenue',color='Country')
 country.update_traces(mode="markers+lines", hovertemplate=None)
 country.update_layout(hovermode='x')
 
+sales_per_year = bike_df.groupby(by='Year')['Revenue'].sum().reset_index()
+year_chart = px.pie(sales_per_year,values='Revenue',names='Year',hole=0.48)
+
+
 country_list = bike_df['Country'].unique()
 
-@callback(
-    Output(component_id='country-val', component_property='children'),
-    Input(component_id='country-dropdown', component_property='value')
-)
-def update_output_div(input_value):
-    print(input_value)
-    return f'Output: {input_value}'
+# @callback(
+#     Output(component_id='country-val', component_property='children'),
+#     Input(component_id='country-dropdown', component_property='value')
+# )
+# def update_output_div(input_value):
+#     print(input_value)
+#     return f'Output: {input_value}'
 
-@callback(
-    Output(component_id='country-val', component_property='children'),
-    Input(component_id='year-slider',component_property='children')
-)
-def update_year(input_value):
-    return input_value
+# @callback(
+#     Output(component_id='country-val', component_property='children'),
+#     Input(component_id='year-slider',component_property='children')
+# )
+# def update_year(input_value):
+#     return input_value
 
 app.layout = html.Main(
     children=[
         html.Section(
+            id='control',
             children=[
                 dcc.Dropdown(
                     options=[{'label': country, 'value': country} for country in country_list], value=None,
@@ -175,10 +182,31 @@ app.layout = html.Main(
                 )
             ]
         ),
-        html.H3(
-            id='country-val',
-            children=[]
+        html.Section(
+            id='sectionTwo',
+            children=[
+                html.Div(
+                    id='countryChart',
+                    children=[
+                        dcc.Graph(
+                        figure=sub_cat_pie
+                        )
+                    ]
                 ),
+                html.Div(
+                    id='yearChart',
+                    children=[
+                        dcc.Graph(
+                            figure=year_chart
+                        )
+                    ]
+                    ),
+            ]
+        ),
+        html.H4(
+            id='country-val',
+            children=['']
+        )
         
     ]
 )
@@ -191,12 +219,12 @@ def update_output_div(input_value):
     print(input_value)
     return f'Output: {input_value}'
 
-@callback(
-    Output(component_id='country-val', component_property='children'),
-    Input(component_id='year-slider',component_property='value')
-)
-def update_year(input_value):
-    return input_value
+# @callback(
+#     Output(component_id='country-val', component_property='children'),
+#     Input(component_id='year-slider',component_property='value')
+# )
+# def update_year(input_value):
+#     return input_value
 
 if __name__ == '__main__':
     app.run(debug=True)
