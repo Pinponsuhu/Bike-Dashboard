@@ -1,9 +1,5 @@
-from dash import Dash,html,dcc,Output,Input,callback
-import pandas as pd 
-import seaborn as sns
 import locale
 import plotly.express as px
-import plotly.graph_objects as go
 import constants
 
 locale.setlocale(locale.LC_ALL,'')
