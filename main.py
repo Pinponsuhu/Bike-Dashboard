@@ -83,7 +83,11 @@ app.layout = html.Main(
                 ),
                 html.Div(
                     children=[
-                        dcc.RangeSlider(
+                        html.Label(
+                            id='slider-label',
+                            children=['Year range']
+                            ),
+                        dcc.Slider(
                         min=bike_df['Year'].min(), 
                         max=bike_df['Year'].max(),
                         id='year-slider' ,
@@ -99,7 +103,7 @@ app.layout = html.Main(
             id= 'summarySection',
             children=[
                 html.Div(
-                    id='monthlyTransaction',
+                    id='monthlyTransactionDiv',
                     children=[
                         dcc.Graph(
                             id='monthlyTransaction',
@@ -197,7 +201,7 @@ app.layout = html.Main(
                     id='yearChart',
                     children=[
                         dcc.Graph(
-                            figure=year_chart
+                            id='sales_years'
                         )
                     ]
                     ),
@@ -205,7 +209,6 @@ app.layout = html.Main(
         ),
         html.H4(
             id='country-val',
-            children=['']
         )
         
     ]
@@ -218,6 +221,7 @@ fig_gen = figures.DashFigures(bike_df)
     Output(component_id='totalQuantity', component_property='children'),
     Output(component_id='highestMonth', component_property='children'),
     Output(component_id='monthlyTransaction', component_property='figure'),
+    Output(component_id='sales_years', component_property='figure'),
     Input(component_id='countryDropdown', component_property='value'),
     allow_duplicate=True
     )
@@ -228,8 +232,17 @@ def update_hist(input_value):
     totalQuan= fig_gen.total_quantity(input_value)
     highestMonth = fig_gen.highest_month(input_value)
     trans= fig_gen.trans_month(input_value)
-    return  total,totalProf,totalQuan,highestMonth,trans
+    saleYears= fig_gen.update_pie(input_value)
+    return  total,totalProf,totalQuan,highestMonth,trans,saleYears
 
+@app.callback(
+    Output(component_id='country-val', component_property='children'),
+    Input(component_id='year-slider', component_property='value')
+)
+
+def yearRange(input_value):
+    print(input_value)
+    return input_value
 
 
 if __name__ == '__main__':

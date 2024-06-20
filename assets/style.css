@@ -29,14 +29,20 @@ body {
 }
 #control{
     display: grid;
-    grid-template-columns: repeat(3 1fr);
+    grid-template-columns: auto auto;
     column-gap: 15px;
 }
 #country-dropdown{
-    grid-column: span 1;
+    display: block;
+    height: 36px;
+}
+
+#slider-label{
+    display: 'block';
+    margin-bottom: 20px;
 }
 #year-slider{
-    grid-column: span 1;
+    display: block;
 }
 #countryChart{
     grid-column: span 5;
@@ -44,7 +50,7 @@ body {
 #yearChart{
     grid-column: span 4;
 }
-#monthlyTransaction{
+#monthlyTransactionDiv{
     grid-column: span 6;
     padding: 24px;
     background-color: #FFFFFF;

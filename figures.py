@@ -112,4 +112,14 @@ class DashFigures():
             grouped_month = self.bike_df.groupby(by='Month')['Revenue'].sum().reset_index()
             highestMonth = grouped_month.loc[grouped_month['Revenue'] == grouped_month['Revenue'].max(),'Month']
             return highestMonth
-            
+    
+    def update_pie(self,input_value):
+        if input_value == None:
+            sales_per_year = self.bike_df.groupby(by='Year')['Revenue'].sum().reset_index()
+            year_chart = px.pie(sales_per_year,values='Revenue',names='Year',hole=0.48)
+            return year_chart
+        else:
+            filtered_df = self.bike_df.loc[self.bike_df['Country'] == input_value]
+            sales_per_year = filtered_df.groupby(by='Year')['Revenue'].sum().reset_index()
+            year_chart = px.pie(sales_per_year,values='Revenue',names='Year',hole=0.48)
+            return year_chart
