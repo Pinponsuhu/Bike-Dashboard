@@ -15,41 +15,9 @@ bike_df.reset_index(drop=True,inplace=True)
 
 app = Dash(__name__,external_stylesheets=['./assets/style.css',constants.FONT_AWESOME])
 
-customer_count = bike_df['Revenue'].count()
-total_profit =  bike_df['Profit'].sum()
-total_quantity =  bike_df['Order_Quantity'].sum()
-
-highest_month_group = bike_df.groupby(by='Month')['Revenue'].sum().reset_index()
-highest_month = highest_month_group.loc[highest_month_group['Revenue'] == highest_month_group['Revenue'].max()]
-highest_month
 
 
-transaction_month = px.histogram(bike_df,x='Month',y='Revenue',color='Product_Category',barmode='group',title="Transactions Per Month",color_discrete_map=constants.CATEGORY_COLORS,histfunc='sum',labels='Revenue',height=370)
-transaction_month.update_layout(
-    paper_bgcolor = constants.SECTION_BG,
-    plot_bgcolor = constants.SECTION_BG,
-    yaxis=dict(
-        title='Sum of revenue($)',
-        title_font=dict(size=14, color='black'),  # Y-axis title font properties
-        tickfont=dict(size=12, color='black'),  # Y-axis tick label properties
-        gridcolor= constants.SECTION_BG
-    ), 
-    xaxis=dict(
-        title='Years',
-        title_font=dict(size=14, color='black'),  # X-axis title font properties
-        tickfont=dict(size=12, color='black'),
-        title_standoff=20,# X-axis tick label properties
-        gridcolor= constants.SECTION_BG
-    ),
-    legend=dict(
-        title='Product Category',
-        bgcolor="#D5F0FF", 
-        font=dict(
-            size = 10,
-            color="black"  # Text color of the legend
-        )
-    )
-)
+
 
 
 sub_cat = bike_df.groupby(by='Country')['Revenue'].sum().reset_index()
@@ -61,8 +29,7 @@ country = px.line(bike_df, x='Year',y='Revenue',color='Country')
 country.update_traces(mode="markers+lines", hovertemplate=None)
 country.update_layout(hovermode='x')
 
-sales_per_year = bike_df.groupby(by='Year')['Revenue'].sum().reset_index()
-year_chart = px.pie(sales_per_year,values='Revenue',names='Year',hole=0.48)
+
 
 
 country_list = bike_df['Country'].unique()
