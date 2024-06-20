@@ -138,9 +138,9 @@ app.layout = html.Main(
                                     children=['Total Profit']
                                 ),
                                 html.H1(
-                                    id='totalValue',
+                                    id='totalProfit',
                                     className='totalValue',
-                                    children=[f'${locale.format_string('%d',total_profit,grouping=True)}']
+                                    
                                 ),
                             ]
                         ),
@@ -156,9 +156,8 @@ app.layout = html.Main(
                                     children=['Total Quantity']
                                 ),
                                 html.H1(
-                                    id='totalValue',
+                                    id='totalQuantity',
                                     className='totalValue',
-                                    children=[f'${locale.format_string('%d',total_quantity,grouping=True)}']
                                 ),
                             ]
                         ),
@@ -174,9 +173,8 @@ app.layout = html.Main(
                                     children=['Highest Month']
                                 ),
                                 html.H1(
-                                    id='totalValue',
+                                    id='highestMonth',
                                     className='totalValue',
-                                    children=[f'{highest_month['Month'].values[0]}']
                                 ),
                             ]
                         ),
@@ -216,6 +214,9 @@ fig_gen = figures.DashFigures(bike_df)
 
 @app.callback(
     Output(component_id='totalCustomer', component_property='children'),
+    Output(component_id='totalProfit', component_property='children'),
+    Output(component_id='totalQuantity', component_property='children'),
+    Output(component_id='highestMonth', component_property='children'),
     Output(component_id='monthlyTransaction', component_property='figure'),
     Input(component_id='countryDropdown', component_property='value'),
     allow_duplicate=True
@@ -223,8 +224,11 @@ fig_gen = figures.DashFigures(bike_df)
 
 def update_hist(input_value):
     total= fig_gen.total_customer(input_value)
+    totalProf= fig_gen.total_Profit(input_value)
+    totalQuan= fig_gen.total_quantity(input_value)
+    highestMonth = fig_gen.highest_month(input_value)
     trans= fig_gen.trans_month(input_value)
-    return  total,trans
+    return  total,totalProf,totalQuan,highestMonth,trans
 
 
 

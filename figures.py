@@ -80,3 +80,36 @@ class DashFigures():
             count_customer = self.bike_df['Revenue'].count()
             
             return f'{locale.format_string('%d',count_customer,grouping=True)}'
+        
+    def total_Profit(self,input_value):
+        if input_value != None:
+            total_prof = self.bike_df.loc[self.bike_df['Country'] == input_value,'Profit'].sum()
+            
+            return f'${locale.format_string('%d',total_prof,grouping=True)}'
+        else:
+            total_prof = self.bike_df['Profit'].sum()
+            
+            return f'${locale.format_string('%d',total_prof,grouping=True)}'
+        
+        
+    def total_quantity(self,input_value):
+        if input_value != None:
+            total_prof = self.bike_df.loc[self.bike_df['Country'] == input_value,'Order_Quantity'].sum()
+            
+            return f'{locale.format_string('%d',total_prof,grouping=True)}'
+        else:
+            total_prof = self.bike_df['Order_Quantity'].sum()
+            
+            return f'{locale.format_string('%d',total_prof,grouping=True)}'
+
+    def highest_month(self,input_value):
+        if input_value != None:
+            country_df = self.bike_df.loc[self.bike_df['Country'] == input_value]
+            grouped_month = country_df.groupby(by='Month')['Revenue'].sum().reset_index()
+            highestMonth = grouped_month.loc[grouped_month['Revenue'] == grouped_month['Revenue'].max()]
+            return highestMonth['Month']
+        else:
+            grouped_month = self.bike_df.groupby(by='Month')['Revenue'].sum().reset_index()
+            highestMonth = grouped_month.loc[grouped_month['Revenue'] == grouped_month['Revenue'].max(),'Month']
+            return highestMonth
+            
