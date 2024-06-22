@@ -8,9 +8,29 @@
 
 body {
     background-color: #f8f9fc;
-    padding: 20px;
     box-sizing: border-box;
+    padding: 20px;
 }
+
+.headerSection{
+    display: flex;
+    padding: 14px 24px;
+    column-gap: 18px;
+    align-items: center;
+    background: #FFFFFF;
+    margin-bottom: 18px;
+}
+
+#dashLogo{
+    display: block;
+    width: 36px;
+    height: auto;
+}
+
+#dashTitle{
+    font-size: 28px;
+}
+
 #summarySection{
     display: grid;
     column-gap: 16px;
@@ -31,18 +51,22 @@ body {
     display: grid;
     grid-template-columns: auto auto;
     column-gap: 25px;
+    align-items: center;
 }
-#country-dropdown{
+#countryDropdown{
     display: block;
     height: 36px;
+    margin-top: 8px;
 }
 
-#slider-label{
+#slider-label,#country-label{
     display: 'block';
-    margin-bottom: 20px;
+    font-size: 16px;
+    font-weight: bold;
 }
 #year-slider{
     display: block;
+    margin-top: 8px;
 }
 #countryChart{
     grid-column: span 5;

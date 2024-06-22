@@ -27,11 +27,29 @@ country_list = bike_df['Country'].unique()
 
 app.layout = html.Main(
     children=[
+        html.Div(
+                className='headerSection', 
+                children=[
+                    html.Img(
+                        width=32,
+                        id='dashLogo',
+                        src='./assets/bicycle.png'
+                        ), 
+                    html.H1(
+                        id='dashTitle',
+                        children=['Bike Sales Dashboard']
+                    )
+                ]
+            ),
         html.Section(
             id='control',
             children=[
                 html.Div(
                     children=[
+                        html.Label(
+                            id='country-label',
+                            children=['Sort by Country']
+                            ),
                         dcc.Dropdown(
                         placeholder ='Select Country',
                         options=bike_df['Country'].unique(), value=None,
