@@ -12,7 +12,7 @@ locale.setlocale(locale.LC_ALL,'')
 bike_df = pd.read_csv('./assets/Sales.csv',parse_dates=['Date'])
 bike_df.reset_index(drop=True,inplace=True)
 
-app = Dash(__name__,external_stylesheets=['./assets/style.css',constants.FONT_AWESOME])
+app = Dash(__name__,external_stylesheets=['./assets/style.css',constants.FONT_AWESOME],title="Bike Sales Dashboard")
 
 sub_cat = bike_df.groupby(by='Country')['Revenue'].sum().reset_index()
 
