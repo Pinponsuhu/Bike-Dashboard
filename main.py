@@ -1,6 +1,5 @@
-from dash import Dash,html,dcc,Output,Input,callback
+from dash import Dash,html,dcc,Output,Input
 import pandas as pd 
-import seaborn as sns
 import locale
 import plotly.express as px
 import plotly.graph_objects as go
@@ -15,11 +14,6 @@ bike_df.reset_index(drop=True,inplace=True)
 
 app = Dash(__name__,external_stylesheets=['./assets/style.css',constants.FONT_AWESOME])
 
-
-
-
-
-
 sub_cat = bike_df.groupby(by='Country')['Revenue'].sum().reset_index()
 
 
@@ -28,9 +22,6 @@ sub_cat_pie = go.Figure(go.Bar(x=sub_cat['Country'],y=sub_cat['Revenue'], marker
 country = px.line(bike_df, x='Year',y='Revenue',color='Country')
 country.update_traces(mode="markers+lines", hovertemplate=None)
 country.update_layout(hovermode='x')
-
-
-
 
 country_list = bike_df['Country'].unique()
 
@@ -60,9 +51,11 @@ app.layout = html.Main(
                         id='year-slider' ,
                         step=None,
                         marks={str(year): str(year) for year in bike_df['Year'].unique()},
-                    
                 )
                     ]
+                ), 
+                html.Title(
+                    children='Bike Sales Dashboard'
                 )
             ]
             ),
@@ -160,7 +153,7 @@ app.layout = html.Main(
                     id='countryChart',
                     children=[
                         dcc.Graph(
-                        figure=sub_cat_pie
+                            id='countryChart',
                         )
                     ]
                 ),
@@ -204,12 +197,13 @@ def update_hist(input_value):
 
 @app.callback(
     Output(component_id='country-val', component_property='children'),
+    Output(component_id='countryChart', component_property='figure'),
     Input(component_id='year-slider', component_property='value')
 )
 
 def yearRange(input_value):
-    print(input_value)
-    return input_value
+    country_chart = fig_gen.country_chart(input_value)
+    return input_value, country_chart
 
 
 if __name__ == '__main__':

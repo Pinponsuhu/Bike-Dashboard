@@ -1,6 +1,7 @@
 import locale
 import plotly.express as px
 import constants
+import plotly.graph_objects as go
 
 locale.setlocale(locale.LC_ALL,'')
 
@@ -119,3 +120,21 @@ class DashFigures():
             sales_per_year = filtered_df.groupby(by='Year')['Revenue'].sum().reset_index()
             year_chart = px.pie(sales_per_year,values='Revenue',names='Year',hole=0.48)
             return year_chart
+    
+    def country_chart(self,input_value):
+        
+        if input_value == None:            
+            sub_cat = self.bike_df.groupby(by='Country')['Revenue'].sum().reset_index()
+            sub_cat_pie = go.Figure(go.Bar(x=sub_cat['Country'],y=sub_cat['Revenue'], marker_color='#442BC7'))
+            sub_cat_pie.update_layout(
+                title = 'Sales Per Country'
+            )
+        else:
+            filtered_df = self.bike_df.loc[self.bike_df['Year'] == int(input_value)]
+            sub_cat = filtered_df.groupby(by='Country')['Revenue'].sum().reset_index()
+            sub_cat_pie = go.Figure(go.Bar(x=sub_cat['Country'],y=sub_cat['Revenue'], marker_color='#442BC7'))
+            sub_cat_pie.update_layout(
+                title = f'Sales Per Country in {input_value}'
+            )
+        
+        return sub_cat_pie

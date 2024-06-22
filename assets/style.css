@@ -19,7 +19,7 @@ body {
 }
 #sectionTwo{
     display: grid;
-    column-gap: 16px;
+    column-gap: 25px;
     grid-template-columns: repeat(9,1fr);
     margin-top: 20px;
 }
@@ -30,7 +30,7 @@ body {
 #control{
     display: grid;
     grid-template-columns: auto auto;
-    column-gap: 15px;
+    column-gap: 25px;
 }
 #country-dropdown{
     display: block;
